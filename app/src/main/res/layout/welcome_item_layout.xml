@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemWelcome"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/backgroundWelcomeImageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/welcome_2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/joinButton"
+        android:layout_width="70dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="242dp"
+        android:background="@color/hardRed"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        android:text="Únete"
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        app:cornerRadius="19dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/ubuntu"
+        android:lines="2"
+        android:text="Recargas con \ncódigo QR"
+        android:textAlignment="center"
+        android:textColor="@color/hardRed"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/joinButton" />
+
+    <TextView
+        android:id="@+id/detailTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="63dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="63dp"
+        android:lines="2"
+        android:text="Garantizamos tu privacidad, \nhaz recargas  sin tener que dictar tu número."
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+
+    <Button
+        android:id="@+id/facebookImageButton"
+        android:layout_width="164dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/login_face"
+        android:insetLeft="20dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="Iniciar sesión con facebook"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="6sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailTextView"
+        app:rippleColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="#00FFFFFF"
+        android:text="Ya tengo cuenta"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/facebookImageButton" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
