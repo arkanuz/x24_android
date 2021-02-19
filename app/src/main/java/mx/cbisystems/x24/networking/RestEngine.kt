@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RestEngine {
 
     private val AUTH = "BASIC " + Base64.encodeToString("administrador@cbisystems.mx:cbi2020.".toByteArray(), Base64.NO_WRAP)
-    private const val BASWE_URL = "http://201.99.79.116:9090"
+    private const val BASE_URL = "http://201.99.79.116:9090"
 
     private val okHttpClient = OkHttpClient.Builder()
             .addInterceptor { chain ->
@@ -23,7 +23,7 @@ object RestEngine {
 
     val instance: API by lazy {
         val retrofit = Retrofit.Builder()
-                .baseUrl(BASWE_URL)
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build()

@@ -12,7 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.X24"
         android:usesCleartextTraffic="true">
-        <activity android:name=".FavoritesActivity"></activity>
         <activity android:name=".TablayoutActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".WelcomeActivity" />

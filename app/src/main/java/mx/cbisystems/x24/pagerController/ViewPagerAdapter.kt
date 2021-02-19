@@ -1,8 +1,12 @@
-package mx.cbisystems.x24
+package mx.cbisystems.x24.pagerController
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import mx.cbisystems.x24.FavoriteFragment
+import mx.cbisystems.x24.ProfileFragment
+import mx.cbisystems.x24.PromosFragment
+import mx.cbisystems.x24.StoresFragment
 
 class ViewPagerAdapter(fa: FragmentActivity): FragmentStateAdapter(fa) {
 

@@ -31,9 +31,6 @@ class LoginActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-
-
-
         binding.joinLoginButton.setOnClickListener {
             val mail = binding.loginEditText.text.toString().trim()
             val pass = binding.passEditText.text.toString().trim()

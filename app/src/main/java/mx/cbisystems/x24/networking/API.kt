@@ -1,5 +1,6 @@
 package mx.cbisystems.x24.networking
 
+import mx.cbisystems.x24.entities.MFavorites
 import mx.cbisystems.x24.entities.MStore
 import mx.cbisystems.x24.entities.MUser
 import retrofit2.Call
@@ -18,4 +19,7 @@ interface API {
         @Field("username") username: String,
         @Field("password") password: String
     ):Call<MUser>
+
+    @GET("/appX24/catalog/home")
+    fun listFavorites():Call<MFavorites>
 }
