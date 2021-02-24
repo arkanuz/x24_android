@@ -1,14 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
+        android:id="@+id/profileScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        tools:layout_editor_absoluteX="318dp"
+        tools:layout_editor_absoluteY="287dp">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/profileLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileImageView"
+                android:layout_width="147dp"
+                android:layout_height="147dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/userprofile" />
+
+            <TextView
+                android:id="@+id/profileNameTextView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="30dp"
+                android:text="Nombre
+"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profileImageView" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="MI SALDO"
+                android:textColor="@color/hardRed"
+                android:textSize="25sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profileNameTextView" />
+
+            <TextView
+                android:id="@+id/profilePointsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="0"
+                android:textColor="@color/hardRed"
+                android:textSize="63sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="PUNTOS"
+                android:textColor="@color/hardRed"
+                android:textSize="25sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profilePointsTextView" />
+
+            <Button
+                android:id="@+id/profileCanjearButton"
+                android:layout_width="177dp"
+                android:layout_height="44dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/clear"
+                android:text="CANJEAR"
+                android:textColor="@color/hardRed"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:cornerRadius="22dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView8"
+                app:strokeColor="@color/hardRed"
+                app:strokeWidth="4dp" />
+
+            <Button
+                android:id="@+id/profileQRButton"
+                android:layout_width="177dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/clear"
+                android:text="MI QR"
+                android:textColor="@color/hardRed"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:cornerRadius="22dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profileCanjearButton"
+                app:strokeColor="@color/hardRed"
+                app:strokeWidth="4dp" />
+
+            <Button
+                android:id="@+id/profileExitButton"
+                android:layout_width="177dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/clear"
+                android:text="SALIR"
+                android:textColor="@color/hardRed"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:cornerRadius="22dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profileQRButton"
+                app:strokeColor="@color/hardRed"
+                app:strokeWidth="4dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </FrameLayout>

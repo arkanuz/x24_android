@@ -1,5 +1,6 @@
 package mx.cbisystems.x24
 
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import mx.cbisystems.x24.pagerController.ViewPagerAdapter
@@ -38,8 +40,28 @@ class TablayoutActivity : AppCompatActivity() {
 
                 // Colorear de rojo el texto y el icono del tab seleccionado
                 val tabView = tab.view.findViewById<TextView>(R.id.tab)
-                tabView.setTextColor(ContextCompat.getColor(this@TablayoutActivity, R.color.hardRed))
+                tabView.setTextColor(
+                    ContextCompat.getColor(
+                        this@TablayoutActivity,
+                        R.color.hardRed
+                    )
+                )
                 tabView.setDrawableColor(R.color.hardRed)
+
+                if (tab.position == 0) {
+                    val favoriteFragment: FavoriteFragment =
+                        supportFragmentManager.findFragmentByTag(
+                            "f0"
+                        ) as FavoriteFragment
+                    favoriteFragment.downloadFavorites()
+                } else if (tab.position == 3) {
+                    supportFragmentManager.executePendingTransactions()
+                    val fragment = supportFragmentManager
+
+                    val promosFragment: Fragment? = fragment.findFragmentByTag("f3")
+                    //promosFragment.downloadPromos()
+                }
+
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
@@ -55,19 +77,23 @@ class TablayoutActivity : AppCompatActivity() {
         })
 
         setupTabIcons()
-    }
-
-    override fun onStart() {
-        super.onStart()
 
         // Preseleccionar tab (Si no se selecciona el dafault es cero)
-        val tabToSelect = tabLayout!!.getTabAt(0)
+        val tabToSelect = tabLayout!!.getTabAt(2)
         tabToSelect!!.select()
+    }
+
+    // Se interviene el botón de back para impedir su acción
+    override fun onBackPressed() {
+
     }
 
     fun TextView.setDrawableColor(@ColorRes color: Int) {
         compoundDrawablesRelative.filterNotNull().forEach {
-            it.colorFilter = PorterDuffColorFilter(ContextCompat.getColor(this.context, color), PorterDuff.Mode.SRC_IN)
+            it.colorFilter = PorterDuffColorFilter(
+                ContextCompat.getColor(this.context, color),
+                PorterDuff.Mode.SRC_IN
+            )
         }
     }
 

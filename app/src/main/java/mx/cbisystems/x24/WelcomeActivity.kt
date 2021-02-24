@@ -1,6 +1,5 @@
 package mx.cbisystems.x24
 
-import android.R.attr
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -74,6 +73,10 @@ class WelcomeActivity : AppCompatActivity() {
         welcomeConstraint.addView(view3)
     }
 
+    override fun onBackPressed() {
+
+    }
+
     fun openLogin() {
         val intent = Intent(this, LoginActivity::class.java)
         //intent.putExtra("isLogged", false)
@@ -87,7 +90,7 @@ class WelcomeActivity : AppCompatActivity() {
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 //get extra data from data intent here
-                val isLoggued = data?.getBooleanExtra ("isLogged", false)
+                val isLoggued = data?.getBooleanExtra("isLogged", false)
                 if (isLoggued == true){
                     val intent = Intent(this, TablayoutActivity::class.java)
                     startActivity(intent)

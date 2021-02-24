@@ -6,11 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
+import com.irozon.alertview.AlertActionStyle
+import com.irozon.alertview.AlertStyle
+import com.irozon.alertview.AlertView
+import com.irozon.alertview.objects.AlertAction
 import com.squareup.picasso.Picasso
 import mx.cbisystems.x24.entities.FavoriteItem
 import mx.cbisystems.x24.entities.MFavorites
@@ -45,10 +50,7 @@ class FavoriteFragment : Fragment() {
     }
 
     // Autogenerado
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_favorite, container, false)
     }
@@ -56,15 +58,15 @@ class FavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // LLamar un ReciclerView para poner los elementos
-        val favoriteReciclerView = view.findViewById<RecyclerView>(R.id.favoriteReciclerView)
+        // LLamar un RecyclerView para poner los elementos
+        val favoriteRecyclerView = view.findViewById<RecyclerView>(R.id.favoriteRecyclerView)
         // Meterlos en un layout horizontal
-        favoriteReciclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        favoriteRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         // paginar el scroll
         val snapHelper: SnapHelper = LinearSnapHelper()
-        snapHelper.attachToRecyclerView(favoriteReciclerView)
+        snapHelper.attachToRecyclerView(favoriteRecyclerView)
 
-        downloadFavorites()
+        //downloadFavorites()
     }
 
     companion object {
@@ -99,16 +101,26 @@ class FavoriteFragment : Fragment() {
 
                         val favoriteReciclerView =
                             this@FavoriteFragment.view?.findViewById<RecyclerView>(
-                                R.id.favoriteReciclerView
+                                R.id.favoriteRecyclerView
                             )
                         favoriteReciclerView?.adapter = favorites?.let { FavoriteAdapter(it) }
                     } else {
                         Log.i("Favorites", "conexión favoritos realizada con error")
+                        val alert = AlertView("No se pudo establecer conexión con el servidor", "Verifique su conexión a internet", AlertStyle.DIALOG)
+                        alert.addAction(AlertAction("Aceptar", AlertActionStyle.DEFAULT, { action ->
+// Action 1 callback
+                        }))
+                        alert.show(activity as AppCompatActivity)
                     }
                 }
 
                 override fun onFailure(call: Call<MFavorites>, t: Throwable) {
                     Log.i("Favorites", "error en conexión favoritos: " + t.message)
+                    val alert = AlertView("No se pudo establecer conexión con el servidor", "Verifique que el servidor está encendido y se encuentra funcionando correctamente", AlertStyle.DIALOG)
+                    alert.addAction(AlertAction("Aceptar", AlertActionStyle.DEFAULT, { action ->
+// Action 1 callback
+                    }))
+                    alert.show(activity as AppCompatActivity)
                 }
             })
     }
@@ -139,5 +151,4 @@ class FavoriteAdapter(val favorites: MFavorites) : RecyclerView.Adapter<Favorite
     class FavoriteViewHolder(itemView: View, favoriteItem: FavoriteItem?) : RecyclerView.ViewHolder(itemView){
 
     }
-
 }

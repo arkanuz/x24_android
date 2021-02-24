@@ -17,16 +17,20 @@ class ViewPagerAdapter(fa: FragmentActivity): FragmentStateAdapter(fa) {
     override fun createFragment(position: Int): Fragment {
         when (position){
             0 -> {
-                return FavoriteFragment()
+                val fragment = FavoriteFragment()
+                return fragment
             }
             1 -> {
-                return StoresFragment()
+                val fragment = StoresFragment()
+                return fragment
             }
             2 -> {
-                return ProfileFragment()
+                val fragment = ProfileFragment()
+                return fragment
             }
             3 -> {
-                return PromosFragment()
+                val fragment =  PromosFragment()
+                return fragment
             }
             else -> return PromosFragment()
         }

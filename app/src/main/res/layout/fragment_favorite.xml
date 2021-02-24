@@ -7,11 +7,10 @@
     tools:context=".FavoriteFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/favoriteReciclerView"
+        android:id="@+id/favoriteRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        app:layoutManager="LinearLayoutManager"
-        />
+        app:layoutManager="LinearLayoutManager" />
 
 </FrameLayout>

@@ -1,17 +1,12 @@
 package mx.cbisystems.x24.networking
 
-import mx.cbisystems.x24.entities.MFavorites
-import mx.cbisystems.x24.entities.MStore
-import mx.cbisystems.x24.entities.MUser
+import mx.cbisystems.x24.entities.*
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface API {
     @GET("/appX24/catalog/stores2")
-    fun listStores(): Call<List<MStore>>
+    fun listStores(): Call<MStore>
 
     @FormUrlEncoded
     @POST("/appX24/security/login")
@@ -22,4 +17,12 @@ interface API {
 
     @GET("/appX24/catalog/home")
     fun listFavorites():Call<MFavorites>
+
+    @GET("/appX24/catalog/promos")
+    fun listPromos():Call<MPromos>
+
+    @GET("/appX24/clientes/{userId}/perfil")
+    fun profile(
+        @Path("userId") userId: Int
+    ):Call<MProfile>
 }

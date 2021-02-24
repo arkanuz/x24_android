@@ -2,9 +2,9 @@ package mx.cbisystems.x24.entities
 
 import com.google.gson.annotations.SerializedName
 
-class MStore : ArrayList<MStoreItem>()
+class MStore : ArrayList<StoreItem>()
 
-data class MStoreItem(
+data class StoreItem(
     @SerializedName("id_store") val id_store : Int,
     val name : String,
     val address: String,

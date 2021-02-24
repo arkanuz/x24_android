@@ -11,11 +11,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+        android:id="@+id/dots_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:dotsColor="@color/white"
+        app:dotsCornerRadius="8dp"
+        app:dotsSize="16dp"
+        app:dotsSpacing="4dp"
+        app:dotsWidthFactor="2.5"
+        app:selectedDotColor="@color/hardRed"
+        app:progressMode="true"
+        />
+
     <ImageView
         android:id="@+id/favoriteImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/welcome_2" />
+        android:scaleType="centerCrop"/>
 
 </RelativeLayout>

@@ -2,10 +2,11 @@ package mx.cbisystems.x24.entities
 
 import android.content.ContentValues
 import android.util.Log
+import com.google.gson.annotations.SerializedName
 import mx.cbisystems.x24.networking.AdminSQLiteOpenHelper
 
 data class MUser (
-    var user_id : Int?,
+    @SerializedName("userId") var user_id : Int?,
     var name : String?,
     var lastName : String?,
     var email : String?,
