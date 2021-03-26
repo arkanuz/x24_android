@@ -17,14 +17,13 @@ import com.irozon.alertview.AlertStyle
 import com.irozon.alertview.AlertView
 import com.irozon.alertview.objects.AlertAction
 import com.squareup.picasso.Picasso
-import mx.cbisystems.x24.entities.FavoriteItem
-import mx.cbisystems.x24.entities.MFavorites
 import mx.cbisystems.x24.entities.MPromos
 import mx.cbisystems.x24.entities.PromosItem
 import mx.cbisystems.x24.networking.RestEngine
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -106,6 +105,8 @@ class PromosFragment : Fragment() {
                                 R.id.promosRecyclerView
                             )
                         promosRecyclerView?.adapter = promos?.let { PromosAdapter(it) }
+                        val dotsIndicator = view?.findViewById<ScrollingPagerIndicator>(R.id.promosDotsIndicator)
+                        dotsIndicator!!.attachToRecyclerView(promosRecyclerView!!)
                     } else {
                         Log.i("Promos", "conexión promos realizada con error")
                         val alert = AlertView("No se pudo establecer conexión con el servidor", "Verifique su conexión a internet", AlertStyle.DIALOG)
@@ -127,6 +128,7 @@ class PromosFragment : Fragment() {
             })
     }
 }
+
 
 // Adaptador del visor de Promos. Se puede crear en otro archivo pero decidí dejarlo aquí
 class PromosAdapter(val promos: MPromos) : RecyclerView.Adapter<PromosAdapter.PromosViewHolder>(){

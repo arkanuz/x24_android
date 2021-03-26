@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+
+            android:title="Mi perfil" />
+        <item
+            android:id="@+id/nav_myQR"
+            android:title="Mi QR" />
+        <item
+            android:id="@+id/nav_balance"
+
+            android:title="Mi saldo" />
+
+        <item
+            android:id="@+id/nav_locations"
+
+            android:title="Cerca de ti" />
+    </group>
+
+</menu>

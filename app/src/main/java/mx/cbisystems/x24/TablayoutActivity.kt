@@ -5,26 +5,43 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.widget.TextView
 import androidx.annotation.ColorRes
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayout
 import mx.cbisystems.x24.pagerController.ViewPagerAdapter
 
-
-class TablayoutActivity : AppCompatActivity() {
-    var tabLayout: TabLayout? = null // Ciontrolador de los botones de la barra inferior
+class TablayoutActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    var tabLayout: TabLayout? = null // Controlador de los botones de la barra inferior
     var viewPager: ViewPager2? = null // Visor del contenido que muestra cada botón
     val adapter by lazy { ViewPagerAdapter(this) }
+    var drawerLayout: DrawerLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tablayout)
+        // Ocultar la barra de navegación principal para usar la custom
+        actionBar?.hide()
 
-        //supportActionBar!!.hide() // Ocultar la barra superior
+        // Activar la barra de navegación custom
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        drawerLayout = findViewById(R.id.drawer_layout)
+        val toggle = ActionBarDrawerToggle(this, drawerLayout, findViewById(R.id.toolbar), 0, 0)
+        drawerLayout!!.addDrawerListener(toggle)
+        toggle.syncState()
+
+        // Activar el menu lateral
+        val navView: NavigationView = findViewById(R.id.navigation_view)
+        navView.setNavigationItemSelectedListener(this)
 
         tabLayout = findViewById(R.id.tabLayout)
         viewPager = findViewById(R.id.viewPager)
@@ -56,12 +73,11 @@ class TablayoutActivity : AppCompatActivity() {
                     favoriteFragment.downloadFavorites()
                 } else if (tab.position == 3) {
                     supportFragmentManager.executePendingTransactions()
-                    val fragment = supportFragmentManager
+                    //val fragment = supportFragmentManager
 
-                    val promosFragment: Fragment? = fragment.findFragmentByTag("f3")
+                    //val promosFragment: Fragment? = fragment.findFragmentByTag("f3")
                     //promosFragment.downloadPromos()
                 }
-
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {
@@ -72,20 +88,22 @@ class TablayoutActivity : AppCompatActivity() {
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {
-
             }
         })
 
         setupTabIcons()
 
-        // Preseleccionar tab (Si no se selecciona el dafault es cero)
+        // Preseleccionar tab (Si no se selecciona el default es cero)
         val tabToSelect = tabLayout!!.getTabAt(2)
         tabToSelect!!.select()
     }
 
-    // Se interviene el botón de back para impedir su acción
+    // Se interviene el botón de back para impedir la acción back
     override fun onBackPressed() {
-
+        // Esta parte hace que el botón back oculte el menú
+        if (drawerLayout!!.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout!!.closeDrawer(GravityCompat.START)
+        }
     }
 
     fun TextView.setDrawableColor(@ColorRes color: Int) {
@@ -97,7 +115,7 @@ class TablayoutActivity : AppCompatActivity() {
         }
     }
 
-    // Personalizar el contenido de los tab en el tabLayout
+    // Personalizar el contenido de los tab en el tabLayout (ícono y texto)
     private fun setupTabIcons() {
         val tabOne = LayoutInflater.from(this).inflate(R.layout.custom_tab, null) as TextView
         tabOne.text = "NOVEDADES"
@@ -118,5 +136,36 @@ class TablayoutActivity : AppCompatActivity() {
         tabFour.text = "PROMOCIONES"
         tabFour.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.promo_menu_icon, 0, 0)
         tabLayout!!.getTabAt(3)!!.customView = tabFour
+    }
+
+    // Acción al seleccionar algún elemento del menú lateral
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+
+        when (id) {
+            R.id.nav_profile -> {
+                val tabToSelect = tabLayout!!.getTabAt(2)
+                tabToSelect!!.select()
+            }
+
+            R.id.nav_myQR -> {
+                val tabToSelect = tabLayout!!.getTabAt(3)
+                tabToSelect!!.select()
+            }
+
+            R.id.nav_balance -> {
+                val tabToSelect = tabLayout!!.getTabAt(2)
+                tabToSelect!!.select()
+            }
+
+            R.id.nav_locations -> {
+                val tabToSelect = tabLayout!!.getTabAt(1)
+                tabToSelect!!.select()
+            }
+        }
+
+        drawerLayout?.closeDrawer(GravityCompat.START)
+
+        return true
     }
 }

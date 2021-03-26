@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import com.irozon.alertview.AlertActionStyle
 import com.irozon.alertview.AlertStyle
 import com.irozon.alertview.AlertView
@@ -64,8 +63,8 @@ class LoginActivity : AppCompatActivity() {
                                 db.saveUser(user)
 
                                 val intent = Intent()
-                                intent.putExtra("isLogged", true)
-                                setResult(RESULT_OK, intent);
+                                //intent.putExtra("isLogged", true)
+                                //setResult(RESULT_OK, intent);
                                 finish()
                             }
                         }

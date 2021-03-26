@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/registerButton"
+        android:id="@+id/welcomeRegisterMainButton"
         android:layout_width="117dp"
         android:layout_height="35dp"
         android:layout_marginBottom="200dp"
@@ -35,7 +35,6 @@
         android:id="@+id/textView"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:text="Comienza a gozar de los beneficios de la app de"
         android:textAlignment="center"
         android:textColor="@color/white"
@@ -43,7 +42,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerButton" />
+        app:layout_constraintTop_toBottomOf="@+id/welcomeRegisterMainButton" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -66,7 +65,7 @@
         android:background="@drawable/login_face" />
 
     <Button
-        android:id="@+id/loginMainButton"
+        android:id="@+id/welcomeLoginMainButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

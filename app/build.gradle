@@ -74,8 +74,8 @@ dependencies {
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
     //AlertView
     implementation 'com.irozon.alertview:alertview:1.0.1'
-    //Viewpager Dots
-    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
+    //RecyclerView Dots
+    implementation "ru.tinkoff.scrollingpagerindicator:scrollingpagerindicator:1.2.1"
     //Circle Image
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

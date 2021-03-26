@@ -23,6 +23,7 @@ import mx.cbisystems.x24.networking.RestEngine
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -104,6 +105,9 @@ class FavoriteFragment : Fragment() {
                                 R.id.favoriteRecyclerView
                             )
                         favoriteReciclerView?.adapter = favorites?.let { FavoriteAdapter(it) }
+
+                        val dotsIndicator = view?.findViewById<ScrollingPagerIndicator>(R.id.favoriteDotsIndicator)
+                        dotsIndicator!!.attachToRecyclerView(favoriteReciclerView!!)
                     } else {
                         Log.i("Favorites", "conexión favoritos realizada con error")
                         val alert = AlertView("No se pudo establecer conexión con el servidor", "Verifique su conexión a internet", AlertStyle.DIALOG)

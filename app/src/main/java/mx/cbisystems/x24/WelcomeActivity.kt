@@ -1,16 +1,24 @@
 package mx.cbisystems.x24
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SnapHelper
+import mx.cbisystems.x24.networking.AdminSQLiteOpenHelper
 
 
 @Suppress("DEPRECATION")
@@ -19,83 +27,128 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         this.supportActionBar?.hide()
-
         setContentView(R.layout.activity_welcome)
 
-        var welcomeConstraint = findViewById<LinearLayout>(R.id.welcomeHorizontalScrollLayout)
-        var inflater = LayoutInflater.from(this)
-        var displayMetrics = DisplayMetrics()
-        windowManager.defaultDisplay.getRealMetrics(displayMetrics)
-        var widthScreen : Int = displayMetrics.widthPixels
-
-
-        var mainView = inflater.inflate(
-            R.layout.welcome_main_item_layout,
-            findViewById(R.id.welcomeScrollView),
-            false
-        )
-        mainView.layoutParams.width = widthScreen
-        welcomeConstraint.addView(mainView)
-
-        var loginMainbutton = mainView.findViewById<Button>(R.id.loginMainButton)
-        loginMainbutton.setOnClickListener {
-            openLogin()
-        }
-
-        var view1 = inflater.inflate(R.layout.welcome_item_layout, welcomeConstraint, false)
-        var titleTextView1 = view1.findViewById<TextView>(R.id.titleTextView)
-        titleTextView1.setText("Recargas con \ncódigos QR")
-        var detailTextView1 = view1.findViewById<TextView>(R.id.detailTextView)
-        detailTextView1.setText("Garantizamos tu privacidad, haz recargas \nsin tener que dictar tu número.")
-        var imageView1 = view1.findViewById<ImageView>(R.id.backgroundWelcomeImageView)
-        imageView1.setImageResource(R.drawable.welcome_2)
-        view1.layoutParams.width = widthScreen
-        welcomeConstraint.addView(view1)
-
-        var view2 = inflater.inflate(R.layout.welcome_item_layout, welcomeConstraint, false)
-        var titleTextView2 = view2.findViewById<TextView>(R.id.titleTextView)
-        titleTextView2.setText("Acumula puntos \ncanjeables")
-        var detailTextView2 = view2.findViewById<TextView>(R.id.detailTextView)
-        detailTextView2.setText("Por cada compra recibe una bonificación \nque se acumula en tu código QR.")
-        var imageView2 = view2.findViewById<ImageView>(R.id.backgroundWelcomeImageView)
-        imageView2.setImageResource(R.drawable.welcome_3)
-        view2.layoutParams.width = widthScreen
-        welcomeConstraint.addView(view2)
-
-        var view3 = inflater.inflate(R.layout.welcome_item_layout, welcomeConstraint, false)
-        var titleTextView3 = view3.findViewById<TextView>(R.id.titleTextView)
-        titleTextView2.setText("No sufras por no \nencontrarnos")
-        var detailTextView3 = view3.findViewById<TextView>(R.id.detailTextView)
-        detailTextView3.setText("Ubica la sucursal más cercana a ti.")
-        var imageView3 = view3.findViewById<ImageView>(R.id.backgroundWelcomeImageView)
-        imageView3.setImageResource(R.drawable.welcome_4)
-        view3.layoutParams.width = widthScreen
-        welcomeConstraint.addView(view3)
+        // LLamar un RecyclerView para poner los elementos
+        val welcomeRecyclerView = findViewById<RecyclerView>(R.id.welcomeRecyclerView)
+        welcomeRecyclerView.adapter = WelcomeAdapter()
+        // Meterlos en un layout horizontal
+        welcomeRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        // paginar el scroll
+        val snapHelper: SnapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(welcomeRecyclerView)
     }
 
+    // Interceptamos el back para no permitir retroceder pantalla
     override fun onBackPressed() {
 
     }
 
-    fun openLogin() {
-        val intent = Intent(this, LoginActivity::class.java)
-        //intent.putExtra("isLogged", false)
-        startActivityForResult(intent, 1)
+    override fun onResume() {
+        super.onResume()
+
+        val db = AdminSQLiteOpenHelper(this)
+        val user = db.getUser()
+        if (user != null){
+            val intent = Intent(this, TablayoutActivity::class.java)
+            startActivity(intent)
+        }
+    }
+}
+
+class WelcomeAdapter(): RecyclerView.Adapter<WelcomeAdapter.WelcomeViewHolder>(){
+
+    companion object {
+        private const val WELCOME_ITEM_TYPE_MAIN = 0
+        private const val WELCOME_ITEM_TYPE_BASE = 1
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        Log.v("onActivityResult", "onActivityResult")
+    class WelcomeViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-        if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
-                //get extra data from data intent here
-                val isLoggued = data?.getBooleanExtra("isLogged", false)
-                if (isLoggued == true){
-                    val intent = Intent(this, TablayoutActivity::class.java)
-                    startActivity(intent)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WelcomeViewHolder {
+        return when (viewType){
+            WELCOME_ITEM_TYPE_MAIN -> {
+                val view: View = LayoutInflater.from(parent.context).inflate(R.layout.welcome_main_item_layout, parent, false)
+                WelcomeViewHolder(view)
+            }
+            else -> {
+                val view: View = LayoutInflater.from(parent.context).inflate(R.layout.welcome_item_layout, parent, false)
+                WelcomeViewHolder(view)
+            }
+        }
+
+    }
+
+    override fun onBindViewHolder(holder: WelcomeViewHolder, position: Int) {
+        if (holder.itemViewType == WELCOME_ITEM_TYPE_MAIN){
+            val loginMainbutton = holder.itemView.findViewById<Button>(R.id.welcomeLoginMainButton)
+            loginMainbutton.setOnClickListener {
+                openLogin(holder.itemView.context)
+            }
+
+            val registerButton = holder.itemView.findViewById<Button>(R.id.welcomeRegisterMainButton)
+            registerButton.setOnClickListener {
+                openRegister(holder.itemView.context)
+            }
+        }
+
+        else {
+            var titleTextView = holder.itemView.findViewById<TextView>(R.id.titleTextView)
+            var detailTextView = holder.itemView.findViewById<TextView>(R.id.detailTextView)
+            var imageView = holder.itemView.findViewById<ImageView>(R.id.backgroundWelcomeImageView)
+
+            when (position){
+                1 -> {
+                    titleTextView.setText("Recargas con \ncódigos QR")
+                    detailTextView.setText("Garantizamos tu privacidad, haz recargas \nsin tener que dictar tu número.")
+                    imageView.setImageResource(R.drawable.welcome_2)
                 }
+                2 -> {
+                    titleTextView.setText("Acumula puntos \ncanjeables")
+                    detailTextView.setText("Por cada compra recibe una bonificación \nque se acumula en tu código QR.")
+                    imageView.setImageResource(R.drawable.welcome_3)
+                }
+                3 -> {
+                    titleTextView.setText("No sufras por no encontrarnos")
+                    detailTextView.setText("Ubica la sucursal más cercana a ti.")
+                    imageView.setImageResource(R.drawable.welcome_4)
+                }
+            }
+
+            val loginMainbutton = holder.itemView.findViewById<Button>(R.id.welcomeLoginButton)
+            loginMainbutton.setOnClickListener {
+                openLogin(holder.itemView.context)
+            }
+
+            val registerButton = holder.itemView.findViewById<Button>(R.id.welcomeRegisterButton)
+            registerButton.setOnClickListener {
+                openRegister(holder.itemView.context)
             }
         }
     }
+
+    override fun getItemViewType(position: Int): Int {
+        return when (position) {
+            0 -> WELCOME_ITEM_TYPE_MAIN
+            else -> WELCOME_ITEM_TYPE_BASE
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return 4
+    }
+
+    fun openLogin(context: Context) {
+        val intent = Intent(context, LoginActivity::class.java)
+        intent.putExtra("isLogued", false)
+        context.startActivity(intent)
+    }
+
+    fun openRegister(context: Context) {
+        val intent = Intent(context, RegisterActivity::class.java)
+        context.startActivity(intent)
+    }
+
 }

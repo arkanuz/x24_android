@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/joinButton"
+        android:id="@+id/welcomeRegisterButton"
         android:layout_width="70dp"
         android:layout_height="25dp"
         android:layout_marginBottom="242dp"
@@ -47,7 +47,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/joinButton" />
+        app:layout_constraintTop_toBottomOf="@+id/welcomeRegisterButton" />
 
     <TextView
         android:id="@+id/detailTextView"
@@ -84,7 +84,7 @@
         app:rippleColor="#FFFFFF" />
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/welcomeLoginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"

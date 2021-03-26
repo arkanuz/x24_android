@@ -7,25 +7,11 @@
     android:noHistory="true"
     tools:context=".WelcomeActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/welcomeRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layoutManager="LinearLayoutManager" />
 
-    <HorizontalScrollView
-        android:id="@+id/welcomeScrollView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="0dp"
-        android:background="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:id="@+id/welcomeHorizontalScrollLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-        </LinearLayout>
-
-    </HorizontalScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

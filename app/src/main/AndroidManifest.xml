@@ -12,9 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.X24"
         android:usesCleartextTraffic="true">
+        <activity android:name=".SuccessfulActivity"></activity>
+        <activity android:name=".RegisterActivity">
+            android:windowSoftInputMode="adjustPan|adjustResize"
+        </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/title_activity_store"
             android:theme="@style/Theme.X24.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,17 +25,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".TablayoutActivity" />
+        <activity
+            android:name=".TablayoutActivity"
+            android:theme="@style/Theme.X24.NoActionBar">
+        </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".WelcomeActivity" />
-        <activity android:name=".StoreActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".StoreActivity"></activity>
     </application>
 
 </manifest>
