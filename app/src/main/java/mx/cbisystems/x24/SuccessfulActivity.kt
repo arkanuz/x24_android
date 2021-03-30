@@ -11,10 +11,6 @@ class SuccessfulActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_successful)
-    }
-
-    override fun onStart() {
-        super.onStart()
 
         // Crear un contador para que se muestre mensaje por 2.5 segundos
         timer = object: CountDownTimer(2500, 500){
@@ -29,11 +25,18 @@ class SuccessfulActivity : AppCompatActivity() {
             }
 
         }
+        timer.start()
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
+        // Borrar el timer al terminar de mostrar esta pantalla
         timer.cancel()
+    }
+
+    // Interceptamos el back para no permitir retroceder pantalla
+    override fun onBackPressed() {
+
     }
 }

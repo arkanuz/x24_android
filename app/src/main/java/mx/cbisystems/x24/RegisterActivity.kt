@@ -12,6 +12,7 @@ import com.irozon.alertview.AlertStyle
 import com.irozon.alertview.AlertView
 import com.irozon.alertview.objects.AlertAction
 import mx.cbisystems.x24.databinding.ActivityRegisterBinding
+import mx.cbisystems.x24.entities.MRegister
 import mx.cbisystems.x24.networking.LoadingFragment
 import mx.cbisystems.x24.networking.RestEngine
 import retrofit2.Call
@@ -73,7 +74,8 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            RestEngine.instance.register(0, name, lastName, email, phone, email, pass, 0, "", 0, 0, "", 0, 0)
+            val register = MRegister(0, name.toString(), lastName.toString(), email.toString(), phone.toString(), 0, null, 0, email.toString(), pass.toString(), 0, null, 0, 0)
+            RestEngine.instance.register(register)
                     .enqueue(object: Callback<Void>{
                         override fun onResponse(call: Call<Void>, response: Response<Void>) {
                             if (response.code() == 201){

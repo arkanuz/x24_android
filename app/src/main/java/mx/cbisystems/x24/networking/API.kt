@@ -6,23 +6,10 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface API {
-    @FormUrlEncoded
+    @Headers("Content-Type: application/json")
     @POST("/appX24/users")
     fun register(
-        @Field("userId") userId: Int,
-        @Field("name") name: Editable,
-        @Field("lastName") lastName: Editable,
-        @Field("username") userName: Editable,
-        @Field("phone") phone: Editable,
-        @Field("email") email: Editable,
-        @Field("password") password: Editable,
-        @Field("idProvider") idProvider: Int,
-        @Field("bithDate") birthDate: String,
-        @Field("sex") sex: Int,
-        @Field("status") status: Int,
-        @Field("image") image: String,
-        @Field("lttpAccepted") lttpAccepted: Int,
-        @Field("role") role: Int
+            @Body register: MRegister
     ): Call<Void>
 
     @FormUrlEncoded
