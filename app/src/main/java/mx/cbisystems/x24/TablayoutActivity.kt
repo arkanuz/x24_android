@@ -149,8 +149,8 @@ class TablayoutActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
 
             R.id.nav_myQR -> {
-                val tabToSelect = tabLayout!!.getTabAt(3)
-                tabToSelect!!.select()
+                val intent = Intent(this, QRActivity::class.java)
+                startActivity(intent)
             }
 
             R.id.nav_balance -> {

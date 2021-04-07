@@ -143,7 +143,7 @@ class FavoriteAdapter(val favorites: MFavorites) : RecyclerView.Adapter<Favorite
         var imageView = holder.itemView.findViewById<ImageView>(R.id.favoriteImageView)
 
         // Descargar y mostrar la imagen
-        Picasso.get().load(favorite.urlImage).placeholder(R.drawable.welcome_1).error(R.drawable.welcome_2).into(imageView)
+        Picasso.get().load(favorite.urlImage).placeholder(R.drawable.blank).error(R.drawable.image_not_available).into(imageView)
     }
 
     override fun getItemCount(): Int {

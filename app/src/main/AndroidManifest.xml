@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.X24"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SuccessfulActivity"></activity>
+        <activity android:name=".QRActivity"></activity>
+        <activity android:name=".SuccessfulActivity" />
         <activity android:name=".RegisterActivity">
             android:windowSoftInputMode="adjustPan|adjustResize"
         </activity>
@@ -27,11 +28,10 @@
         </activity>
         <activity
             android:name=".TablayoutActivity"
-            android:theme="@style/Theme.X24.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.X24.NoActionBar"></activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".WelcomeActivity" />
-        <activity android:name=".StoreActivity"></activity>
+        <activity android:name=".StoreActivity" />
     </application>
 
 </manifest>

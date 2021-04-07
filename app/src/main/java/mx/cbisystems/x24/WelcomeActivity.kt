@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import mx.cbisystems.x24.networking.AdminSQLiteOpenHelper
+import mx.cbisystems.x24.networking.LoadingDialog
 
 
 @Suppress("DEPRECATION")

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -63,17 +64,19 @@
 
         <TextView
             android:id="@+id/directionNearTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="7dp"
+            android:layout_marginEnd="20dp"
             android:text="TextView"
             android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/x24TextView" />
 
-        <ImageButton
-            android:id="@+id/imageButton"
+        <ImageView
+            android:id="@+id/storeImage"
             android:layout_width="0dp"
             android:layout_height="240dp"
             android:layout_marginStart="10dp"
@@ -81,17 +84,16 @@
             android:layout_marginEnd="10dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/store"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/directionNearTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/directionNearTextView"
+            app:srcCompat="@drawable/store" />
 
         <Button
             android:id="@+id/startRouteButton"
             android:layout_width="120dp"
             android:layout_height="38dp"
             android:layout_marginTop="50dp"
-            android:capitalize="none"
             android:text="Iniciar Ruta"
             android:textAllCaps="false"
             android:textSize="12sp"
@@ -99,7 +101,7 @@
             app:cornerRadius="19dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+            app:layout_constraintTop_toBottomOf="@+id/storeImage" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

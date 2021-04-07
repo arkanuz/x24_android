@@ -23,6 +23,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, WelcomeActivity::class.java)
             startActivity(intent)
         }
-
+        finish()
     }
 }

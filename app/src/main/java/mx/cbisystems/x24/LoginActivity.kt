@@ -14,6 +14,7 @@ import com.irozon.alertview.objects.AlertAction
 import mx.cbisystems.x24.databinding.ActivityLoginBinding
 import mx.cbisystems.x24.entities.MUser
 import mx.cbisystems.x24.networking.AdminSQLiteOpenHelper
+import mx.cbisystems.x24.networking.LoadingDialog
 import mx.cbisystems.x24.networking.RestEngine
 import retrofit2.Call
 import retrofit2.Callback
@@ -51,10 +52,15 @@ class LoginActivity : AppCompatActivity() {
             val context = this
             val db = AdminSQLiteOpenHelper(context)
 
+            val loadingDialog = LoadingDialog(this)
+            loadingDialog.showLoading()
+
             Log.i(TAG,"conexión iniciada")
             RestEngine.instance.loginUser(mail, pass)
                 .enqueue(object: Callback<MUser>{
                     override fun onResponse(call: Call<MUser>, response: Response<MUser>) {
+                        loadingDialog.hideLoading()
+
                         Log.i(TAG, "pasó la conexión ${response.body()}")
                         if (response.code() == 200){
                             val user = response.body()
@@ -63,8 +69,6 @@ class LoginActivity : AppCompatActivity() {
                                 db.saveUser(user)
 
                                 val intent = Intent()
-                                //intent.putExtra("isLogged", true)
-                                //setResult(RESULT_OK, intent);
                                 finish()
                             }
                         }
@@ -100,6 +104,8 @@ class LoginActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<MUser>, t: Throwable) {
+                        loadingDialog.hideLoading()
+
                         Log.i(TAG,"error en conexión " + t.message)
                         val alert = AlertView("No se pudo establecer conexión con el servidor", "Verifique que el servidor está encendido y se encuentra funcionando correctamente", AlertStyle.DIALOG)
                         alert.addAction(AlertAction("Aceptar", AlertActionStyle.DEFAULT, { action ->

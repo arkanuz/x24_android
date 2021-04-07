@@ -22,6 +22,7 @@ import mx.cbisystems.x24.networking.RestEngine
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.Serializable
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -97,7 +98,6 @@ class StoresFragment : Fragment() {
                         val storesRecyclerView: RecyclerView? = this@StoresFragment.view?.findViewById(R.id.storesRecyclerView)
                         storesRecyclerView?.adapter = stores?.let { StoresAdapter(it) }
                     }
-
                 }
                 else {
                     Log.i("Stores", "conexión promos realizada con error")
@@ -148,12 +148,13 @@ class StoresAdapter(val stores: MStore): RecyclerView.Adapter<StoresAdapter.Stor
         var nameTextView = holder.itemView.findViewById<TextView>(R.id.storeNameTextView)
         nameTextView.text = store.name
 
-
         layout.setOnClickListener {
             Log.i("Stores", "click en item ${store.name}: ${position}")
 
             val context = holder.itemView.context
             val intent = Intent(context, StoreActivity::class.java)
+
+            intent.putExtra("store", store)
             context.startActivity(intent)
         }
     }

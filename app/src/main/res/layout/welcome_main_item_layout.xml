@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/itemMainWelcome"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -20,13 +20,13 @@
     <Button
         android:id="@+id/welcomeRegisterMainButton"
         android:layout_width="117dp"
-        android:layout_height="35dp"
-        android:layout_marginBottom="200dp"
-        android:background="@color/hardRed"
+        android:layout_height="39dp"
+        android:layout_marginBottom="210dp"
         android:text="Únete"
+        android:textSize="12sp"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        app:cornerRadius="17.5dp"
+        app:cornerRadius="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -35,6 +35,7 @@
         android:id="@+id/textView"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text="Comienza a gozar de los beneficios de la app de"
         android:textAlignment="center"
         android:textColor="@color/white"
@@ -59,10 +60,11 @@
         android:layout_width="wrap_content"
         android:layout_height="21dp"
         android:layout_marginTop="20dp"
+        android:alpha="0"
+        android:background="@drawable/login_face"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        android:background="@drawable/login_face" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <Button
         android:id="@+id/welcomeLoginMainButton"

@@ -19,16 +19,15 @@
 
     <Button
         android:id="@+id/welcomeRegisterButton"
-        android:layout_width="70dp"
-        android:layout_height="25dp"
+        android:layout_width="117dp"
+        android:layout_height="39dp"
         android:layout_marginBottom="242dp"
-        android:background="@color/hardRed"
         android:paddingTop="0dp"
         android:paddingBottom="0dp"
         android:text="Únete"
         android:textAllCaps="false"
         android:textSize="12sp"
-        app:cornerRadius="19dp"
+        app:cornerRadius="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -70,6 +69,7 @@
         android:layout_width="164dp"
         android:layout_height="21dp"
         android:layout_marginTop="15dp"
+        android:alpha="0"
         android:background="@drawable/login_face"
         android:insetLeft="20dp"
         android:insetTop="0dp"

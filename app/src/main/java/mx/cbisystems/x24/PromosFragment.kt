@@ -146,7 +146,7 @@ class PromosAdapter(val promos: MPromos) : RecyclerView.Adapter<PromosAdapter.Pr
         var imageView = holder.itemView.findViewById<ImageView>(R.id.promoImageView)
 
         // Descargar y mostrar la imagen
-        Picasso.get().load(promo.urlImage).placeholder(R.drawable.welcome_1).error(R.drawable.welcome_2).into(imageView)
+        Picasso.get().load(promo.urlImage).placeholder(R.drawable.blank).error(R.drawable.image_not_available).into(imageView)
     }
 
     override fun getItemCount(): Int {

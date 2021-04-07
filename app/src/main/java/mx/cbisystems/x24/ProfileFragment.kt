@@ -77,6 +77,8 @@ class ProfileFragment : Fragment() {
             // Regresar a la pantalla de welcome
             val intent = Intent(activity as AppCompatActivity, WelcomeActivity::class.java)
             startActivity(intent)
+
+            (activity as AppCompatActivity).finish()
         }
     }
 

@@ -13,7 +13,7 @@ import com.irozon.alertview.AlertView
 import com.irozon.alertview.objects.AlertAction
 import mx.cbisystems.x24.databinding.ActivityRegisterBinding
 import mx.cbisystems.x24.entities.MRegister
-import mx.cbisystems.x24.networking.LoadingFragment
+import mx.cbisystems.x24.networking.LoadingDialog
 import mx.cbisystems.x24.networking.RestEngine
 import retrofit2.Call
 import retrofit2.Callback
@@ -21,7 +21,6 @@ import retrofit2.Response
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
-    private lateinit var loading: LoadingFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +28,8 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        val loadingDialog = LoadingDialog(this)
 
         binding.pasaleRegisterButton.setOnClickListener {
             val name = binding.nameRegisterEditText.text
@@ -74,10 +75,13 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            loadingDialog.showLoading()
             val register = MRegister(0, name.toString(), lastName.toString(), email.toString(), phone.toString(), 0, null, 0, email.toString(), pass.toString(), 0, null, 0, 0)
             RestEngine.instance.register(register)
                     .enqueue(object: Callback<Void>{
                         override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                            loadingDialog.hideLoading()
+
                             if (response.code() == 201){
                                 val intent = Intent(this@RegisterActivity, SuccessfulActivity::class.java)
                                 startActivity(intent)
@@ -100,6 +104,8 @@ class RegisterActivity : AppCompatActivity() {
                         }
 
                         override fun onFailure(call: Call<Void>, t: Throwable) {
+                            loadingDialog.hideLoading()
+
                             val alert = AlertView("No se pudo establecer conexión con el servidor", "Verifique que el servidor está encendido y se encuentra funcionando correctamente.", AlertStyle.DIALOG)
                             alert.addAction(AlertAction("Aceptar", AlertActionStyle.DEFAULT, { action ->
 // Action 1 callback
