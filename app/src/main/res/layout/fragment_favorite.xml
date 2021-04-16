@@ -17,11 +17,20 @@
             android:orientation="horizontal"
             app:layoutManager="LinearLayoutManager" />
 
+        <View
+            android:id="@+id/favoriteBackIndicatorView"
+            android:layout_width="wrap_content"
+            android:layout_height="110dp"
+            android:background="@color/black_overlay"
+            app:layout_constraintBottom_toBottomOf="@+id/favoriteRecyclerView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <ru.tinkoff.scrollingpagerindicator.ScrollingPagerIndicator
             android:id="@+id/favoriteDotsIndicator"
             android:layout_width="wrap_content"
             android:layout_height="10dp"
-            android:layout_marginBottom="70dp"
+            android:layout_marginBottom="75dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
