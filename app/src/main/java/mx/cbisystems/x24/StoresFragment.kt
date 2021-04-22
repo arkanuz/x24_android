@@ -1,15 +1,25 @@
 package mx.cbisystems.x24
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.irozon.alertview.AlertActionStyle
@@ -22,12 +32,13 @@ import mx.cbisystems.x24.networking.RestEngine
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.Serializable
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+
+private const val PERMISSION_REQUEST = 10
 
 /**
  * A simple [Fragment] subclass.
@@ -39,17 +50,38 @@ class StoresFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private var stores: MStore? = null
+
+    // Variables para permisos de localización
+    lateinit var locationManager: LocationManager
+    private var hasGps = false
+    private var hasNetwork = false
+    private var locationGps: Location? = null
+    private var locationNetwork: Location? = null
+    private var permissions = arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        // Solicitar/verificar permisos de localización
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkPermission(permissions)) {
+                getLocation()
+            } else {
+                requestPermissions(permissions, PERMISSION_REQUEST)
+            }
+        } else {
+
+        }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_stores, container, false)
@@ -88,18 +120,17 @@ class StoresFragment : Fragment() {
 
     // Descargar las tiendas
     fun downloadStores(){
-        RestEngine.instance.listStores().enqueue(object : Callback<MStore>{
+        RestEngine.instance.listStores().enqueue(object : Callback<MStore> {
             override fun onResponse(call: Call<MStore>, response: Response<MStore>) {
-                if (response.code() == 200){
+                if (response.code() == 200) {
                     Log.i("Stores", "conexión stores correcta: ${response.body()}")
 
-                    val stores = response.body()
-                    if (stores != null){
-                        val storesRecyclerView: RecyclerView? = this@StoresFragment.view?.findViewById(R.id.storesRecyclerView)
-                        storesRecyclerView?.adapter = stores?.let { StoresAdapter(it) }
+                    stores = response.body()
+
+                    if (stores != null) {
+                        showStoresSorted()
                     }
-                }
-                else {
+                } else {
                     Log.i("Stores", "conexión promos realizada con error")
                     val alert = AlertView("Error en  el servidor", "Ocurrió un problema en el servidor, por favor intente más tarde.", AlertStyle.DIALOG)
                     alert.addAction(AlertAction("Aceptar", AlertActionStyle.DEFAULT, { action ->
@@ -120,11 +151,121 @@ class StoresFragment : Fragment() {
 
         })
     }
+
+    private fun showStoresSorted(){
+        if (hasGps != null && stores != null){
+            val storesRecyclerView: RecyclerView? = this@StoresFragment.view?.findViewById(R.id.storesRecyclerView)
+            stores!!.sortWith(compareBy{it.distance(locationGps!!)})
+            storesRecyclerView?.adapter = stores?.let { StoresAdapter(it) }
+        }
+    }
+
+    // LOCATION METHODS
+
+    @SuppressLint("MissingPermission")
+    private fun getLocation() {
+        locationManager = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        hasGps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        hasNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        if (hasGps || hasNetwork) {
+
+            if (hasGps) {
+                Log.d("CodeAndroidLocation", "hasGps")
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 100F, object : LocationListener {
+                    override fun onLocationChanged(location: Location) {
+                        if (location != null) {
+                            locationGps = location
+                            Log.d("CodeAndroidLocation", " GPS Latitude : " + locationGps!!.latitude)
+                            Log.d("CodeAndroidLocation", " GPS Longitude : " + locationGps!!.longitude)
+
+                            if (stores != null){
+                                showStoresSorted()
+                            }
+                        }
+                    }
+
+                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+
+                    }
+
+                })
+
+                val localGpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                if (localGpsLocation != null)
+                    locationGps = localGpsLocation
+            }
+            if (hasNetwork) {
+                Log.d("CodeAndroidLocation", "hasGps")
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0F, object : LocationListener {
+                    override fun onLocationChanged(location: Location) {
+                        if (location != null) {
+                            locationNetwork = location
+                            Log.d("CodeAndroidLocation", " Network Latitude : " + locationNetwork!!.latitude)
+                            Log.d("CodeAndroidLocation", " Network Longitude : " + locationNetwork!!.longitude)
+                        }
+                    }
+
+                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+
+                    }
+
+                })
+
+                val localNetworkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                if (localNetworkLocation != null)
+                    locationNetwork = localNetworkLocation
+            }
+
+            if(locationGps!= null && locationNetwork!= null){
+                if(locationGps!!.accuracy > locationNetwork!!.accuracy){
+                    Log.d("CodeAndroidLocation", " Network Latitude : " + locationNetwork!!.latitude)
+                    Log.d("CodeAndroidLocation", " Network Longitude : " + locationNetwork!!.longitude)
+                }else{
+                    Log.d("CodeAndroidLocation", " GPS Latitude : " + locationGps!!.latitude)
+                    Log.d("CodeAndroidLocation", " GPS Longitude : " + locationGps!!.longitude)
+                }
+            }
+
+        } else {
+            startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+        }
+    }
+
+    private fun checkPermission(permissionArray: Array<String>): Boolean {
+        var allSuccess = true
+        for (i in permissionArray.indices) {
+            if (context?.checkCallingOrSelfPermission(permissionArray[i]) == PackageManager.PERMISSION_DENIED)
+                allSuccess = false
+        }
+        return allSuccess
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_REQUEST) {
+            var allSuccess = true
+            for (i in permissions.indices) {
+                if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                    allSuccess = false
+                    val requestAgain = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(permissions[i])
+                    if (requestAgain) {
+                        Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Go to settings and enable the permission", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            if (allSuccess)
+                getLocation()
+        }
+    }
 }
+
+// Stores Adapter
 
 class StoresAdapter(val stores: MStore): RecyclerView.Adapter<StoresAdapter.StoresViewHolder>(){
 
-    class StoresViewHolder (itemView: View, storesItem: StoreItem?):RecyclerView.ViewHolder(itemView){
+    class StoresViewHolder(itemView: View, storesItem: StoreItem?):RecyclerView.ViewHolder(itemView){
 
     }
 

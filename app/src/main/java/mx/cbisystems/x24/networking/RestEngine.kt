@@ -16,7 +16,7 @@ object RestEngine {
                 val requestBuilder = original.newBuilder()
                     .addHeader("Authorization", AUTH)
                     .addHeader("Device-Type", "1")
-                    .method(original.method(), original.body())
+                    .method(original.method, original.body)
                 val request = requestBuilder.build()
                 chain.proceed(request)
             }.build()

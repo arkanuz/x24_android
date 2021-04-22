@@ -1,7 +1,10 @@
 package mx.cbisystems.x24.entities
 
+import android.location.Location
+import android.location.LocationManager
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.Log
 import com.google.gson.annotations.SerializedName
 
 class MStore : ArrayList<StoreItem>()
@@ -12,8 +15,8 @@ data class StoreItem(
     val address: String,
     val phone : String,
     val url_photo : String,
-    val latitude : Double,
-    val longitude : Double,
+    var latitude : Double = 19.5272,
+    var longitude : Double = -96.9231,
     val id_ciudad : Int,
     val create_date : String,
     val status : Int
@@ -57,4 +60,13 @@ data class StoreItem(
             return arrayOfNulls(size)
         }
     }
+
+    fun distance(location: Location): Float{
+        val toLocation = Location(LocationManager.GPS_PROVIDER)
+        toLocation.latitude = this.latitude
+        toLocation.longitude = this.longitude
+
+        return location.distanceTo(toLocation)
+    }
+
 }
