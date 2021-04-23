@@ -43,6 +43,7 @@ class AdminSQLiteOpenHelper(var context: Context) : SQLiteOpenHelper(context, "x
         } else {
             Log.i("UserDB", "user guardado")
         }
+        bd.close()
     }
 
     fun getUser(): MUser?{
@@ -73,6 +74,8 @@ class AdminSQLiteOpenHelper(var context: Context) : SQLiteOpenHelper(context, "x
             }
             while (result.moveToNext())
         }
+        bd.close()
+
         return user
     }
 

@@ -15,7 +15,7 @@ android {
         applicationId "mx.cbisystems.x24"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 7
+        versionCode 8
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

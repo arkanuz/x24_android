@@ -3,9 +3,12 @@ package mx.cbisystems.x24
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.squareup.picasso.Picasso
 import mx.cbisystems.x24.entities.MStore
 import mx.cbisystems.x24.entities.StoreItem
 import java.util.*
@@ -26,6 +29,11 @@ class StoreActivity : AppCompatActivity() {
 
         val addressTextview = findViewById<TextView>(R.id.directionNearTextView)
         addressTextview.text = store.address
+
+        val storeImageView = findViewById<ImageView>(R.id.storeImage)
+        Picasso.get().load(store.url_photo).placeholder(R.drawable.blank).error(R.drawable.store).into(storeImageView)
+
+        Log.i("StoreActivity", "")
 
         val startRouteButton = findViewById<Button>(R.id.startRouteButton)
         startRouteButton.setOnClickListener {

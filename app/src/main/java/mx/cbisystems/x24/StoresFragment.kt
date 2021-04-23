@@ -152,12 +152,17 @@ class StoresFragment : Fragment() {
         })
     }
 
+    // Ordena las tiendas en base a la cercania del dispositivo, en caso de poderse
     private fun showStoresSorted(){
-        if (hasGps != null && stores != null){
-            val storesRecyclerView: RecyclerView? = this@StoresFragment.view?.findViewById(R.id.storesRecyclerView)
+        val storesRecyclerView: RecyclerView? = this@StoresFragment.view?.findViewById(R.id.storesRecyclerView)
+        if (locationGps != null && stores != null){
             stores!!.sortWith(compareBy{it.distance(locationGps!!)})
             storesRecyclerView?.adapter = stores?.let { StoresAdapter(it) }
         }
+        else if (locationNetwork != null && stores != null){
+            stores!!.sortWith(compareBy{it.distance(locationNetwork!!)})
+        }
+        storesRecyclerView?.adapter = stores?.let { StoresAdapter(it) }
     }
 
     // LOCATION METHODS
@@ -194,7 +199,7 @@ class StoresFragment : Fragment() {
                 if (localGpsLocation != null)
                     locationGps = localGpsLocation
             }
-            if (hasNetwork) {
+            else if (hasNetwork) {
                 Log.d("CodeAndroidLocation", "hasGps")
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0F, object : LocationListener {
                     override fun onLocationChanged(location: Location) {
@@ -202,6 +207,10 @@ class StoresFragment : Fragment() {
                             locationNetwork = location
                             Log.d("CodeAndroidLocation", " Network Latitude : " + locationNetwork!!.latitude)
                             Log.d("CodeAndroidLocation", " Network Longitude : " + locationNetwork!!.longitude)
+                        }
+
+                        if (stores != null){
+                            showStoresSorted()
                         }
                     }
 
@@ -216,13 +225,21 @@ class StoresFragment : Fragment() {
                     locationNetwork = localNetworkLocation
             }
 
-            if(locationGps!= null && locationNetwork!= null){
+            else if(locationGps!= null && locationNetwork!= null){
                 if(locationGps!!.accuracy > locationNetwork!!.accuracy){
                     Log.d("CodeAndroidLocation", " Network Latitude : " + locationNetwork!!.latitude)
                     Log.d("CodeAndroidLocation", " Network Longitude : " + locationNetwork!!.longitude)
+
+                    if (stores != null){
+                        showStoresSorted()
+                    }
                 }else{
                     Log.d("CodeAndroidLocation", " GPS Latitude : " + locationGps!!.latitude)
                     Log.d("CodeAndroidLocation", " GPS Longitude : " + locationGps!!.longitude)
+
+                    if (stores != null){
+                        showStoresSorted()
+                    }
                 }
             }
 
